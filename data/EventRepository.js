@@ -1,24 +1,21 @@
+var loki = require('lokijs');
+var db = new loki('database.json');
+var eventCollection = db.addCollection('events');
+
 class EventRepository {
     
-    name = 'Event'
-    
-    contructor(dao) {
-        this.dao = dao;
-    }
+    constructor() {}
     
     add(event) {
-        this.dao.write(() => {
-            this.dao.create(name, event);
-        });
-        return;
+        eventCollection.insert(event);
     }
 
     getAll() {
-        return this.dao.objects(name);
+        return eventCollection.find();
     }
 
     filter(color, tag, start, end) {
-        return this.dao.objects(name).filter("tag LIKE '*" + color +"?'");
+        return eventCollection.find({'tag': 'color' })
     }
 
     

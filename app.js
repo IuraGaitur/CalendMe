@@ -7,10 +7,14 @@ const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+var loki = require('lokijs')
+var db = new loki('database.json')
+var eventCollection = db.addCollection('events')
+//let eventRepo = require('./data/EventRepository')
+//let repository = new eventRepo(eventCollection);
 
 const app = express();
 
-const eventModel = require('./models/Event')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
