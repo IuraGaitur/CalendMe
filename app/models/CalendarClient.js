@@ -11,15 +11,15 @@ var SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 var TOKEN_PATH = './configs/client_data.json';
 
 //Load client secrets from a local file.
-fs.readFile('./configs/client_secret.json', function processClientSecrets(err, content) {
-
-    if (err) {
-    console.log('Error loading client secret file: ' + err);
-    return;
-    }
-    authorize(JSON.parse(content), listEvents);
-    
-});
+//fs.readFile('./configs/client_secret.json', function processClientSecrets(err, content) {
+//
+//    if (err) {
+//    console.log('Error loading client secret file: ' + err);
+//    return;
+//    }
+//    authorize(JSON.parse(content), listEvents);
+//    
+//});
 
 var authClient = {};
 

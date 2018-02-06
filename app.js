@@ -4,16 +4,13 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 
-const index = require('./routes/index');
-const users = require('./routes/users');
-var loki = require('lokijs')
-var db = new loki('database.json')
-var eventCollection = db.addCollection('events')
-//let eventRepo = require('./data/EventRepository')
-//let repository = new eventRepo(eventCollection);
 
+const users = require('./app/routes/users');
+const port = 3000;
 const app = express();
+const passport = require('passport');
 
 
 // view engine setup
@@ -28,7 +25,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session());
+const index = require('./app/routes/index')(app, passport);
+require('./configs/passport')(passport);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
@@ -49,4 +50,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+app.listen(port);
+console.log('The magic happens on port ' + port);
