@@ -25,6 +25,10 @@ class UserRepository {
     deleteAll() {
          userCollection.deleteAll();
     }
+    
+    findByGoogleID(id) {
+        return userCollection.findOne({'google.id': id});
+    }
 }
 
 module.exports = UserRepository;

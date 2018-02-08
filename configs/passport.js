@@ -8,12 +8,15 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
+        console.log(user.id);
         done(null, user.id);
     });
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        return new UserRepository().getById(id);
+        let user = new UserRepository().getById(id);
+        console.log(user);
+        done(null, user);
     });
 
     // code for login (use('local-login', new LocalStategy))
@@ -38,30 +41,26 @@ module.exports = function(passport) {
         process.nextTick(function() {
 
             // try to find the user based on their google id
-            new UserRepository().findByGoogleID(profile.id) {
-                if (err)
-                    return done(err);
+            console.log("Refresh Token:" + refreshToken);
+            let user =  new UserRepository().findByGoogleID(profile.id);
 
-                if (user) {
-                    // if a user is found, log them in
-                    return done(null, {user});
-                } else {
-                    // if the user isnt in our database, create a new user
-                    var newUser = new User();
-
-                    // set all of the relevant information
-                    newUser.google.id    = profile.id;
-                    newUser.google.token = token;
-                    newUser.google.name  = profile.displayName;
-                    newUser.google.email = profile.emails[0].value; // pull the first email
-                    console.log(newUser);
-                    // save the user
-                    new UserRepository().add(newUser);
-                    return done(null, newUser);
-                }
-            });
+            if (user) {
+                // if a user is found, log them in
+                return done(null, user);
+            } else {
+                // if the user isnt in our database, create a new user
+                var newUser = new User();
+                // set all of the relevant information
+                newUser.google.id    = profile.id;
+                newUser.google.token = token;
+                newUser.google.name  = profile.displayName;
+                newUser.google.email = profile.emails[0].value; // pull the first email
+                newUser.google.refreshToken = refreshToken;
+                // save the user
+                new UserRepository().add(newUser);
+                return done(null, newUser);
+            }
         });
-
     }));
 
 };

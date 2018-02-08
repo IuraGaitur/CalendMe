@@ -11,3 +11,60 @@ a {
     padding: 10px 15px;
     display: block;
 }
+.m-t-0 {
+    margin-top: 0px;
+}
+
+.m-t-1 {
+    margin-top: 10px;
+}
+.m-t-2 {
+    margin-top: 20px;
+}
+.m-t-3 {
+    margin-top: 30px;
+}
+
+.m-t-8 {
+    margin-top: 80px;
+}
+
+.Tomato {
+    color: rgb(213, 0, 0)
+}
+
+.Tangerine {
+    color: rgb(244, 81, 30)
+}
+.Banana {
+    color: rgb(246, 191, 38)
+}
+.Basil {
+    color: rgb(11, 128, 67)
+}
+.Sage {
+    color: rgb( 251, 182, 121)
+}
+.Peacock {
+    color: rgb( 3, 155, 129)
+}
+.Blueberry {
+    color: rgb(63, 81, 181)
+}
+.Lavender {
+    color: rgb(121, 134, 203)
+}
+.Grape {
+    color: rgb(142, 36, 170)
+}
+.Flamingo {
+    color: rgb( 230, 124, 115)
+}
+
+.Graphite {
+    color: rgb( 97, 97, 97)
+}
+
+.Blue {
+    color: rgb( 66, 133, 244)
+}

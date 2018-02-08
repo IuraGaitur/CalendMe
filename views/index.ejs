@@ -2,12 +2,11 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" />
-
+    <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
     <nav class="navbar navbar-default">
@@ -32,7 +31,7 @@
           </ul>
         
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Link</a></li>
+            <li><a href="#">LogOut</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -52,11 +51,10 @@
                     <span class="list_elem">Category</span>
                 </li>
                 <li>
-                     <select class="selectpicker" multiple data-selected-text-format="count > 3">
-                        <option>Mustard</option>
-                        <option>Ketchup</option>
-                        <option>Relish</option>
-                        <option>Onions</option>
+                     <select class="selectpicker" multiple data-selected-text-format="count > 3" id="categorySelect">
+                        <% for(let i=0; i< categories.length; i++) { %>
+                            <option><%= categories[i].name %></option>
+                        <% } %> 
                     </select>
                 </li>
             </div>
@@ -65,55 +63,126 @@
                     <span class="list_elem">Colors</span>
                 </li>
                 <li>
-                     <select class="selectpicker" multiple data-selected-text-format="count > 3">
-                        <option>Mustard</option>
-                        <option>Ketchup</option>
-                        <option>Relish</option>
-                        <option>Onions</option>
+                     <select class="selectpicker" multiple data-selected-text-format="count > 3" id="colorSelect">
+                        <% for(let i=0; i< colors.length; i++) { %>
+                            <option data-icon="glyphicon glyphicon glyphicon-stop <%= colors[i].name %>"><%= colors[i].name %></option>
+                        <% } %> 
                     </select>
                 </li>
             </div>
             <div class="col-xs-3 nav navbar-nav">
                 <li>
-                    <span class="list_elem">Contains text</span>
+                    <span class="list_elem"></span>
                 </li>
                 <li>
-                    <select class="selectpicker" multiple data-selected-text-format="count > 3">
-                        <option>Mustard</option>
-                        <option>Ketchup</option>
-                        <option>Relish</option>
-                        <option>Onions</option>
-                    </select>
+                  <form class="navbar-form navbar-left m-t-0">
+                      <div class="form-group pull-right">
+                          <input type="text" class="form-control" placeholder="Search">
+                          <button type="submit" class="btn btn-default">Search</button>
+                      </div>
+                  </form>
                 </li>
             </div>  
-
-        </div>   
-    
-        <canvas id="chartPie" width="603" height="301" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
-        <canvas id="chartBar" width="1000" height="300" class="chartjs-render-monitor" style="display: block;width: 603px; height: 301px;"></canvas>
-        <canvas id="stackChart" width="1000" height="300" class="chartjs-render-monitor" style="display: block;width: 603px; height: 301px;"></canvas>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-default m-t-8" style=" height:390px">
+                  <div class="panel-heading">Statistics</div>
+                  <div class="panel-body">
+                    <canvas id="chartPie" width="603" height="301" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                <div class="panel panel-default m-t-8" style="height:390px">
+                  <div class="panel-heading">Statistics</div>
+                  <div class="panel-body">
+                    <canvas id="chartBar" width="603" height="401" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default m-t-8" style="width:40%; height:390px">
+              <div class="panel-heading">Statistics</div>
+              <div class="panel-body">
+                  <canvas id="stackChart" width="603" height="301" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
+              </div>
+            </div>
+        </div>
+        
+        <canvas id="chartBar" width="1000" height="300" class="chartjs-render-monitor hidden-lg" style="display: block;width: 603px; height: 301px;"></canvas>
+        
     </div> 
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
+    
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
     <!-- Date picker js-->  
     <script type="text/javascript">
-        $(function() {
-            $('input[name="daterange"]').daterangepicker();
+        
+        var selectedColors = [];
+        var selectedCategories = [];
+        var startDateFrom = new Date();
+        var endDateTo = new Date();
+        var searchString = '';       
+        
+        $('input[name="daterange"]').daterangepicker(
+            {
+                locale: {
+                  format: 'YYYY-MM-DD'
+                },
+                startDate: '2013-01-01',
+                endDate: '2013-12-31'
+            }, 
+            function(start, end, label) {
+                alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
         });
+        $('#categorySelect').on('changed.bs.select', function (e) {
+            console.log(e);
+        });
+        $('#colorSelect').on('changed.bs.select', function (e) {
+            console.log(e);
+        });
+        
+        
+        function updateEvents() {
+            $.ajax({
+              type: 'GET',
+              url: '/events',
+                data: { 
+                    start: startDateFrom, 
+                    end: endDateTo, 
+                    categories: selectedCategories,
+                    colors: selectedCategories,
+                    search: searchString
+                  }
+              success: function(result) {
+                var html;
+                for (var i = 0; i< result.length; i++) {
+                    html += '<h2>' + order[i].name + ' ' + order[i].drink + '</h2>';
+                }
+                $('#target').html(html);
+              }
+            });
+        }
+        
+        
     </script>
     <!--- Pie chart js -->
-    <!--<script type="text/javascript">
+    <script type="text/javascript">
         var randomScalingFactor = function() {
             return Math.round(Math.random() * 100);
         };
 
         var config = {
             type: 'pie',
+             
             data: {
                 datasets: [{
                     data: [
@@ -141,86 +210,13 @@
                 ]
             },
             options: {
-                responsive: true
+                responsive: false,
+                width:500,
+                height:300,
             }
         };
-
-        window.onload = function() {
-            var ctx = document.getElementById("chartPie").getContext("2d");
-            window.myPie = new Chart(ctx, config);
-        };
-    </script>  -->
-    <!-- Bar chart js -->
-    <script type="text/javascript">
-    
-		function randomNumber(min, max) {
-			return Math.random() * (max - min) + min;
-		}
-
-		function randomBar(date, lastClose) {
-			var open = randomNumber(lastClose * .95, lastClose * 1.05);
-			var close = randomNumber(open * .95, open * 1.05);
-			var high = randomNumber(Math.max(open, close), Math.max(open, close) * 1.1);
-			var low = randomNumber(Math.min(open, close) * .9, Math.min(open, close));
-			return {
-				t: date.valueOf(),
-				y: close
-			};
-		}
-
-		var dateFormat = 'MMMM DD YYYY';
-		var date = moment('April 01 2017', dateFormat);
-		var data = [randomBar(date, 30)];
-		var labels = [date];
-		while (data.length < 60) {
-			date = date.clone().add(1, 'd');
-			if (date.isoWeekday() <= 5) {
-				data.push(randomBar(date, data[data.length - 1].y));
-				labels.push(date);
-			}
-		}
-
-		var ctx = document.getElementById("chartBar").getContext("2d");
-		ctx.canvas.width = 1000;
-		ctx.canvas.height = 300;
-		var cfg = {
-			type: 'bar',
-			data: {
-				labels: labels,
-				datasets: [{
-					label: "CHRT - Chart.js Corporation",
-					data: data,
-					type: 'line',
-					pointRadius: 1,
-					fill: false,
-					lineTension: 1,
-					borderWidth: 2,
-                    
-				}]
-			},
-			options: {
-				scales: {
-					xAxes: [{
-						type: 'time',
-						distribution: 'series',
-						ticks: {
-							source: 'labels'
-						}
-					}],
-					yAxes: [{
-						scaleLabel: {
-							display: true,
-							labelString: 'Closing price ($)'
-						}
-					}]
-				}
-			}
-		};
-		var chart = new Chart(ctx, cfg);
-    </script>
-    <!-- Stack chart js -->
-    <!-- <script type="text/javascript">
-      
+        
+        //Grouped chart
         var barChartData = {
             labels: ["January", "February", "March", "April", "May", "June", "July"],
             datasets: [{
@@ -262,12 +258,48 @@
                     randomScalingFactor(),
                     randomScalingFactor()
                 ]
-            }]
+            }], options: {
+                responsive: false,
+                width:500,
+                height:300,
+            }
 
         };
+        
+        //Bar chart
+        function randomNumber(min, max) {
+			return Math.random() * (max - min) + min;
+		}
+
+		function randomBar(date, lastClose) {
+			var open = randomNumber(lastClose * .95, lastClose * 1.05);
+			var close = randomNumber(open * .95, open * 1.05);
+			var high = randomNumber(Math.max(open, close), Math.max(open, close) * 1.1);
+			var low = randomNumber(Math.min(open, close) * .9, Math.min(open, close));
+			return {
+				t: date.valueOf(),
+				y: close
+			};
+		}
+
+		var dateFormat = 'MMMM DD YYYY';
+		var date = moment('April 01 2017', dateFormat);
+		var data = [randomBar(date, 30)];
+		var labels = [date];
+		while (data.length < 60) {
+			date = date.clone().add(1, 'd');
+			if (date.isoWeekday() <= 5) {
+				data.push(randomBar(date, data[data.length - 1].y));
+				labels.push(date);
+			}
+		}
+
         window.onload = function() {
-            var ctx = document.getElementById("stackChart").getContext("2d");
-            window.myBar = new Chart(ctx, {
+            var ctxPie = document.getElementById("chartPie").getContext("2d");
+            window.myPie = new Chart(ctxPie, config);
+            
+            var ctxGroup = document.getElementById("stackChart").getContext("2d");
+            window.myGroup = new Chart(ctxGroup, {
                 type: 'bar',
                 data: barChartData,
                 options: {
@@ -290,7 +322,48 @@
                     }
                 }
             });
+            
+            var ctxBar = document.getElementById("chartBar").getContext("2d");
+            ctxBar.canvas.width = 900;
+            ctxBar.canvas.height = 500;
+            var cfgs = {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "CHRT - Chart.js Corporation",
+                        data: data,
+                        type: 'bar',
+                        pointRadius: 1,
+                        fill: false,
+                        lineTension: 1,
+                        borderWidth: 2,
+
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            distribution: 'series',
+                            ticks: {
+                                source: 'labels',
+                                fontSize: 7
+                            },
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Closing price ($)'
+                            }
+                        }]
+                    }
+                }
+            };
+            
+            window.myBar = new Chart(ctxBar, cfgs);
+            window.myBar.update();
         };
-    </script> -->
+    </script>
   </body>
 </html>
