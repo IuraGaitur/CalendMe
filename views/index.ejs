@@ -38,12 +38,12 @@
     </nav>  
     <div class="content"> 
         <div class="row"> 
-            <div class="col-xs-3 nav navbar-nav">
+            <div class="col-xs-2 nav navbar-nav">
                 <li>
                     <span class="list_elem">Date Range</span>
                 </li>
                 <li>
-                    <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control"/> 
+                    <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control form_control_width_small"/> 
                 </li>
             </div>
             <div class="col-xs-3 nav navbar-nav">
@@ -70,7 +70,7 @@
                     </select>
                 </li>
             </div>
-            <div class="col-xs-3 nav navbar-nav">
+            <div class="col-xs-4 nav navbar-nav">
                 <li>
                     <span class="list_elem"></span>
                 </li>
@@ -81,6 +81,9 @@
                           <button type="submit" class="btn btn-default">Search</button>
                       </div>
                   </form>
+                </li>
+                <li>
+                    <button type="submit" class="btn btn-success" id="submit">Submit</button>
                 </li>
             </div>  
         </div>
@@ -117,63 +120,16 @@
     </div> 
     
     
+    
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="/javascripts/main.js"></script>
     <!-- Date picker js-->  
-    <script type="text/javascript">
-        
-        var selectedColors = [];
-        var selectedCategories = [];
-        var startDateFrom = new Date();
-        var endDateTo = new Date();
-        var searchString = '';       
-        
-        $('input[name="daterange"]').daterangepicker(
-            {
-                locale: {
-                  format: 'YYYY-MM-DD'
-                },
-                startDate: '2013-01-01',
-                endDate: '2013-12-31'
-            }, 
-            function(start, end, label) {
-                alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-        });
-        $('#categorySelect').on('changed.bs.select', function (e) {
-            console.log(e);
-        });
-        $('#colorSelect').on('changed.bs.select', function (e) {
-            console.log(e);
-        });
-        
-        
-        function updateEvents() {
-            $.ajax({
-              type: 'GET',
-              url: '/events',
-                data: { 
-                    start: startDateFrom, 
-                    end: endDateTo, 
-                    categories: selectedCategories,
-                    colors: selectedCategories,
-                    search: searchString
-                  }
-              success: function(result) {
-                var html;
-                for (var i = 0; i< result.length; i++) {
-                    html += '<h2>' + order[i].name + ' ' + order[i].drink + '</h2>';
-                }
-                $('#target').html(html);
-              }
-            });
-        }
-        
-        
-    </script>
+    
     <!--- Pie chart js -->
     <script type="text/javascript">
         var randomScalingFactor = function() {

@@ -68,3 +68,7 @@ a {
 .Blue {
     color: rgb( 66, 133, 244)
 }
+
+.form_control_width_small {
+    width: 120px;
+}
