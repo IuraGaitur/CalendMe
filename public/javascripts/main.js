@@ -22,18 +22,18 @@ let colors = [
         ];
         
 let categories = [
-            {id:1, name: "Work", short_name: ["WOV", "WV"]},
-            {id:1, name: "Health", short_name: ["HEV", "HV"]},
-            {id:1, name: "Discipline", short_name: ["DIV", "DV"]},
-            {id:1, name: "Food", short_name: ["FOV","FV"]},
-            {id:1, name: "Procastination", short_name: ["PROC", "Proc"]},
-            {id:1, name: "Sleep", short_name: ["SLV", "SV"]},
-            {id:1, name: "Beauty", short_name: ["BEV", "BV"]},
-            {id:1, name: "Event", short_name: ["EVV", "EV"]},
-            {id:1, name: "Programming", short_name: ["PRV", "PV"]},
-            {id:1, name: "Resources", short_name: ["REV", "RV"]},
-            {id:1, name: "Information", short_name: ["INV", "IV"]},
-            {id:1, name: "Sport", short_name: ["SPV", "SV"]}
+            {id:1, name: "Work", short_name: ["WOV", "WV"], color: 'rgba(213, 0, 0, 0.5)'},
+            {id:1, name: "Health", short_name: ["HEV", "HV"], color: 'rgba( 244, 81, 30, 0.5)'},
+            {id:1, name: "Discipline", short_name: ["DIV", "DV"], color: 'rgba( 246, 191, 38, 0.5)'},
+            {id:1, name: "Food", short_name: ["FOV","FV"], color: 'rgba( 11, 128, 67, 0.5)'},
+            {id:1, name: "Procastination", short_name: ["PROC", "Proc"], color: 'rgba( 251, 182, 121, 0.5)'},
+            {id:1, name: "Sleep", short_name: ["SLV", "SV"], color: 'rgba( 3, 155, 129, 0.5)'},
+            {id:1, name: "Beauty", short_name: ["BEV", "BV"], color: 'rgba( 63, 81, 181, 0.5)'},
+            {id:1, name: "Event", short_name: ["EVV", "EV"], color: 'rgba( 121, 134, 203, 0.5)'},
+            {id:1, name: "Programming", short_name: ["PRV", "PV"], color: 'rgba( 142, 36, 170, 0.5)'},
+            {id:1, name: "Resources", short_name: ["REV", "RV"], color: 'rgba( 230, 124, 115, 0.5)'},
+            {id:1, name: "Information", short_name: ["INV", "IV"], color: 'rgba( 97, 97, 97, 0.5)'},
+            {id:1, name: "Sport", short_name: ["SPV", "SV"], color: 'rgba(66, 133, 244, 0.5)'}
         ];
 
 
@@ -47,67 +47,58 @@ $('#submit').on('click', function(e) {
 
 
 function getDumpEvents() {
-    return [{startDate: new Date('2018-02-02T12:00'), endDate: new Date('2018-02-02T14:00'), name: '[WV]Doing work', color: 'rgba(255, 99, 132, 0.2)'},
-          {startDate: new Date('2018-02-03T12:00'), endDate: new Date('2018-02-03T18:00'), name: '[EV]Doing work', color: 'rgba(54, 162, 235, 0.2)'},
-          {startDate: new Date('2018-02-04T12:00'), endDate: new Date('2018-02-04T14:00'), name: '[SV]Doing work', color: 'rgba(255, 206, 86, 0.2)'},
-          {startDate: new Date('2018-02-05T12:00'), endDate: new Date('2018-02-05T14:00'), name: '[DV]Doing work', color: 'rgba(75, 192, 192, 0.2)'},
-          {startDate: new Date('2018-02-06T12:00'), endDate: new Date('2018-02-06T14:00'), name: '[WV]Doing work', color: 'rgba(153, 102, 255, 0.2)'},
+    return [{startDate: new Date('2018-02-02T12:00'), endDate: new Date('2018-02-02T14:00'), name: '[WV]Doing work', color: 'rgba(255, 99, 132, 0.5)'},
+          {startDate: new Date('2018-02-03T12:00'), endDate: new Date('2018-02-03T18:00'), name: '[EV]Doing work', color: 'rgba(54, 162, 235, 0.5)'},
+          {startDate: new Date('2018-02-04T12:00'), endDate: new Date('2018-02-04T15:00'), name: '[SV]Doing work', color: 'rgba(255, 206, 86, 0.5)'},
+          {startDate: new Date('2018-02-05T12:00'), endDate: new Date('2018-02-05T14:00'), name: '[DV]Doing work', color: 'rgba(75, 192, 192, 0.5)'},
+          {startDate: new Date('2018-02-06T12:00'), endDate: new Date('2018-02-06T14:00'), name: '[WV]Doing work', color: 'rgba(153, 102, 255, 0.5)'},
          ];
 }
 
 function updateGraphs(events) {
     let chartsData = getDistinctEvents(events);
-    console.log(chartsData);
     updatePieChart(chartsData.pieData);
-    //updateBarChart(chartsData.pieData);
-    //updateGroupBarChart(chartsData.pieData);
+    updateBarChart(chartsData.barData);
+    updateGroupBarChart(chartsData.groupBarData);
     
 }
 
 function updatePieChart(events) {
     window.myPie.data.labels = events.map(item => item.label);
     window.myPie.data.datasets[0].data = events.map(item => milisecondsToTime(item.value));
-    window.myPie.data.datasets[0].backgroundColor = events.map(item => item.color);
     window.myPie.data.datasets[0].label = "Data for period __:__";
+    window.myPie.data.backgroundColor = events.map(item => item.color); 
     window.myPie.update();
 }
 
-function updateBarChart() {
-    window.myPie.data.labels = events.map(item => item.label);
-    window.myPie.data.datasets[0].data = events.map(item => item.value);
-    window.myPie.data.datasets[0].backgroundColor = events.map(item => item.color);
-    window.myPie.data.datasets[0].label = "Data for period __:__";
-    window.myPie.update();
+function updateBarChart(events) {
+    window.myBar.data.labels = events.map(item => item.label);
+    window.myBar.data.datasets[0].data = events.map(item => milisecondsToTime(item.value));
+    window.myBar.data.datasets[0].label = "Data for period __:__ on labels: ....";
+    window.myBar.update();
 }
 
-function updateGroupBarChart() {
-    window.myPie.data.labels = events.map(item => item.label);
-    window.myPie.data.datasets[0].data = events.map(item => milisecondsToTime(item.value));
-    window.myPie.data.datasets[0].backgroundColor = events.map(item => item.color);
-    window.myPie.data.datasets[0].label = "Data for period __:__";
-    window.myPie.update();
+function updateGroupBarChart(data) {
+    console.log(data);
+    window.myGroup.data = data;
+    window.myGroup.update();
 }
 
 
 function getDistinctEvents(events) {
     let pieData = [];
     let barData = [];
-    let groupBarData = {};
+    let groupBarData = [];
     //Events
     for(let i = 0; i < events.length; i++) {
-        //info for pie chart
         getPieInfo(events[i], pieData);
-        
-        //info for bar chart
-        //getBarInfo(events[i], barData);
-        
-        //get info for group chart
-        //getGroupBarInfo(events[i], )
-        
-        
+        getBarInfo(events[i], barData);
+        getGroupBarInfo(events[i], groupBarData);
     }
+
+    groupData = aggregateBarInfo(groupBarData);
     
-    return {pieData: pieData, barData: barData, groupBarData: groupBarData};
+    return {pieData: pieData, barData: barData, groupBarData: groupData};
 }
 
 function getPieInfo(event, pieData) {
@@ -128,78 +119,85 @@ function getPieInfo(event, pieData) {
     }
 }
 
-// function getBarInfo(event, barData) {
+function getBarInfo(event, barData) {
     
-//     let label = formatDate(event.startDate);
+    let label = formatDate(event.startDate);
+    let time = event.endDate - event.startDate;
     
-//     if(containsKeyItem(barData, label)) {
-//         let key = getItemPosWithKey(barData, label) 
-//         barData[key].value = barData[key].value + time; 
-//     }else {
-//         barData.push({label: label, value: time})  
-//     }  
-// }
+    if(containsKeyItem(barData, label)) {
+        let key = getItemPosWithKey(barData, label) 
+        barData[key].value = barData[key].value + time; 
+    }else {
+        barData.push({label: label, value: time})  
+    }  
+}
 
-// function getGroupBarInfo(event, groupData) {
-    
-    
-    
-//     let label = formatDate(event.startDate, 'month');
-//     groupData.labels = {}
-    
-//     if(containsKeyItem(barData, label)) {
-//         let key = getItemPosWithKey(barData, label) 
-//         barData[key].value = barData[key].value + time; 
-//     }else {
-//         barData.push({label: label, value: time})  
-//     }
-// }
+function getGroupBarInfo(event, groupData) {
 
-//labels: ["January", "February", "March", "April", "May", "June", "July"],
-//            datasets: [{
-//                label: 'Dataset 1',
-//                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-//                stack: 'Stack 0',
-//                data: [
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor()
-//                ]
-//            }, {
-//                label: 'Dataset 2',
-//                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-//                stack: 'Stack 0',
-//                data: [
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor()
-//                ]
-//            }, {
-//                label: 'Dataset 3',
-//                backgroundColor: 'rgba(13, 102, 255, 0.2)',
-//                stack: 'Stack 1',
-//                data: [
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor(),
-//                    randomScalingFactor()
-//                ]
-//            }]
+    let label = formatDate(event.startDate);
+    let time = event.endDate - event.startDate;
+    
+    if(containsKeyItem(groupData, label)) {
+        let key = getItemPosWithKey(groupData, label) 
+        groupData[key].data.push({name: event.name, color: event.color, time: time}); 
+    }else {
+        groupData.push({label: label, data: [{name: event.name, color: event.color, time: time}]});  
+    }
+}
 
 
+function aggregateBarInfo(events) {
+
+    let days = events.map(event => event.label);
+    let result = {labels: days, datasets:[]};
+
+    for(let i = 0; i < categories.length; i++) {
+        let dataset = aggregateCategory(events, categories[i], days);
+        console.log(dataset);
+        result.datasets.push(dataset);
+    }
+
+    return result;
+}
 
 
+function aggregateCategory(events, category, days) {
+    
+    let datasetWork = {label: category.name,
+        backgroundColor: category.color,
+        stack: 'Stack',
+        data: []
+     };
+
+
+    for(let i = 0; i < days.length; i++) {
+        let day = events.filter(item => item.label == days[i])[0];
+        let items = day.data.filter(item => manyIncludes(category.short_name, item.name));
+        
+        let totalTime = 0;
+        for(let j = 0; j < items.length; j++) {
+            totalTime += items[j].time;
+        }
+
+        datasetWork.data.push(milisecondsToTime(totalTime));
+    }
+
+    return datasetWork;
+}
+
+
+function manyIncludes(items, name) {
+
+    let result = false;
+    for(let i = 0; i < items.length; i++) {
+        if(name.includes(items[i])) {
+            result = true;
+        }
+    }
+    return result;
+}
+
+    
 function getItemPosWithKey(array, key) {
     var pos = -1;
     for(var i = 0; i < array.length; i++) {
@@ -250,12 +248,6 @@ function milisecondsToTime(milisecs)
     secs = Math.round(secs);
     let hours = Math.floor(secs / (60 * 60));
     return hours;
-}
-
-function updateBarChart() {
-    var value = window.myPie.data.datasets[0].data[0];
-    window.myPie.data.datasets[0].data[0] = value + 5;
-    window.myPie.update();
 }
 
 function updateAgregatorChart() {
