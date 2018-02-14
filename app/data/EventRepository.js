@@ -42,7 +42,7 @@ class EventRepository {
         if(numberOfConditions == 1) {
             result = eventCollection.find(conditions[0]);
         }else {
-            result = eventCollection.find('$and': conditions);
+            result = eventCollection.find({'$and': conditions});
         }
        
 

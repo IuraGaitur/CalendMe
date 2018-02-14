@@ -42,7 +42,6 @@ module.exports = function(app, passport) {
             currentUser.google.refreshToken = '1/ajhV-5qNPtsxoOKzqH6op4k4UkIOSLATBR1mtChXjuYrIVXM35QHrwzAMXJ5gN1f' +
                                                 '13c90f6c-14f5-f94a-38a5-6c8c4f74d90a';
         }
-        console.log(currentUser.google.refreshToken);
         calendarClient.listEvents(currentUser.google.refreshToken, currentUser.google.token).then(function(events) {
                 let id = currentUser.id;
                 new eventRepo().addAll(events);
@@ -54,7 +53,7 @@ module.exports = function(app, passport) {
         });
     });
     
-    app.post('/get_events', function(req,res, next) {
+    app.post('/api/events', function(req,res, next) {
         let startDate = req.body.start_date;
         let endDate = req.body.end_date;
         let colors = req.body.colors;

@@ -39,7 +39,7 @@ let categories = [
 
 $('#submit').on('click', function(e) {
     console.log("Click" + startDateFrom + " " + selectedCategories);
-    //updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors, searchString);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors, searchString);
     let events = getDumpEvents();
     updateGraphs(events);
     
@@ -279,14 +279,14 @@ $('#colorSelect').on('changed.bs.select', function (e) {
 
 function updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors, searchString) {
     $.ajax({
-      type: 'GET',
-      url: '/events',
+      type: 'POST',
+      url: '/api/events',
       data: { 
-            start: startDateFrom, 
-            end: endDateTo, 
+            start_date: startDateFrom, 
+            end_date: endDateTo, 
             categories: selectedCategories,
             colors: selectedColors,
-            search: searchString
+            startWith: searchString
       },
       success: function(result) {
         updateGraphs(result);
