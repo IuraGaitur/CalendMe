@@ -30,11 +30,11 @@ class Event {
 function getCategory(name) {
 	for(let i = 0; i < resources.categories.length; i++) {
 		if(name.includes(resources.categories[i].shortName)) {
-			return resources.categories[i].shortName;
+			return resources.categories[i].id;
 		}
 	}
 
-	return 'No category';
+	return 0;
 
 
 }

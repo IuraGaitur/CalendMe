@@ -1,10 +1,17 @@
 
 let selectedColors = [];
 let selectedCategories = [];
-let startDateFrom = new Date();
-let endDateTo = new Date();
-let searchString = ''; 
 
+//Date setup
+let startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+let endOfMonth   = moment().endOf('month').format('YYYY-MM-DD');
+let startDateFrom = new Date(startOfMonth).getTime();
+let endDateTo = new Date(endOfMonth).getTime();
+
+//Date time type
+let dateTypePieChart = 'month';
+let dateTypePieChart = 'month';
+let dateTypePieChart = 'month';
 
 let colors = [
             {id:3, name: 'Tomato', color: [213, 0, 0]},
@@ -23,29 +30,23 @@ let colors = [
         
 let categories = [
             {id:1, name: "Work", short_name: ["WOV", "WV"], color: 'rgba(213, 0, 0, 0.5)'},
-            {id:1, name: "Health", short_name: ["HEV", "HV"], color: 'rgba( 244, 81, 30, 0.5)'},
-            {id:1, name: "Discipline", short_name: ["DIV", "DV"], color: 'rgba( 246, 191, 38, 0.5)'},
-            {id:1, name: "Food", short_name: ["FOV","FV"], color: 'rgba( 11, 128, 67, 0.5)'},
-            {id:1, name: "Procastination", short_name: ["PROC", "Proc"], color: 'rgba( 251, 182, 121, 0.5)'},
-            {id:1, name: "Sleep", short_name: ["SLV", "SV"], color: 'rgba( 3, 155, 129, 0.5)'},
-            {id:1, name: "Beauty", short_name: ["BEV", "BV"], color: 'rgba( 63, 81, 181, 0.5)'},
-            {id:1, name: "Event", short_name: ["EVV", "EV"], color: 'rgba( 121, 134, 203, 0.5)'},
-            {id:1, name: "Programming", short_name: ["PRV", "PV"], color: 'rgba( 142, 36, 170, 0.5)'},
-            {id:1, name: "Resources", short_name: ["REV", "RV"], color: 'rgba( 230, 124, 115, 0.5)'},
-            {id:1, name: "Information", short_name: ["INV", "IV"], color: 'rgba( 97, 97, 97, 0.5)'},
-            {id:1, name: "Sport", short_name: ["SPV", "SV"], color: 'rgba(66, 133, 244, 0.5)'}
+            {id:2, name: "Health", short_name: ["HEV", "HV"], color: 'rgba( 244, 81, 30, 0.5)'},
+            {id:3, name: "Discipline", short_name: ["DIV", "DV"], color: 'rgba( 246, 191, 38, 0.5)'},
+            {id:4, name: "Food", short_name: ["FOV","FV"], color: 'rgba( 11, 128, 67, 0.5)'},
+            {id:5, name: "Procastination", short_name: ["PROC", "Proc"], color: 'rgba( 251, 182, 121, 0.5)'},
+            {id:6, name: "Sleep", short_name: ["SLV", "SV"], color: 'rgba( 3, 155, 129, 0.5)'},
+            {id:7, name: "Beauty", short_name: ["BEV", "BV"], color: 'rgba( 63, 81, 181, 0.5)'},
+            {id:8, name: "Event", short_name: ["EVV", "EV"], color: 'rgba( 121, 134, 203, 0.5)'},
+            {id:9, name: "Programming", short_name: ["PRV", "PV"], color: 'rgba( 142, 36, 170, 0.5)'},
+            {id:10, name: "Resources", short_name: ["REV", "RV"], color: 'rgba( 230, 124, 115, 0.5)'},
+            {id:11, name: "Information", short_name: ["INV", "IV"], color: 'rgba( 97, 97, 97, 0.5)'},
+            {id:12, name: "Sport", short_name: ["SPV", "SV"], color: 'rgba(66, 133, 244, 0.5)'}
         ];
 
 
-$('#submit').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors, searchString);
-    let events = getDumpEvents();
-    updateGraphs(events);
-    
-});
-
-
+/**
+    Dump data for event testing
+**/
 function getDumpEvents() {
     return [{startDate: new Date('2018-02-02T12:00'), endDate: new Date('2018-02-02T14:00'), name: '[WV]Doing work', color: 'rgba(255, 99, 132, 0.5)'},
           {startDate: new Date('2018-02-03T12:00'), endDate: new Date('2018-02-03T18:00'), name: '[EV]Doing work', color: 'rgba(54, 162, 235, 0.5)'},
@@ -55,6 +56,10 @@ function getDumpEvents() {
          ];
 }
 
+
+/**
+    Update charts
+**/
 function updateGraphs(events) {
     let chartsData = getDistinctEvents(events);
     updatePieChart(chartsData.pieData);
@@ -63,6 +68,9 @@ function updateGraphs(events) {
     
 }
 
+/**
+    Update for pie chart
+**/
 function updatePieChart(events) {
     window.myPie.data.labels = events.map(item => item.label);
     window.myPie.data.datasets[0].data = events.map(item => milisecondsToTime(item.value));
@@ -71,6 +79,9 @@ function updatePieChart(events) {
     window.myPie.update();
 }
 
+/**
+    Update for bar chart
+**/
 function updateBarChart(events) {
     window.myBar.data.labels = events.map(item => item.label);
     window.myBar.data.datasets[0].data = events.map(item => milisecondsToTime(item.value));
@@ -78,13 +89,18 @@ function updateBarChart(events) {
     window.myBar.update();
 }
 
+/**
+    Update for group chart
+**/
 function updateGroupBarChart(data) {
-    console.log(data);
     window.myGroup.data = data;
     window.myGroup.update();
 }
 
 
+/**
+    Define events aggregation for all charts
+**/
 function getDistinctEvents(events) {
     let pieData = [];
     let barData = [];
@@ -101,6 +117,9 @@ function getDistinctEvents(events) {
     return {pieData: pieData, barData: barData, groupBarData: groupData};
 }
 
+/**
+    Define logic for aggregation pie chart info
+**/
 function getPieInfo(event, pieData) {
     for(let j = 0; j < categories.length; j++) {
         //Categories shortName
@@ -108,8 +127,8 @@ function getPieInfo(event, pieData) {
             if(event.name.includes(categories[j].short_name[k])) {
                 let time = event.endDate - event.startDate;
                 
-                if(containsKeyItem(pieData, event.name)) {
-                    let key = getItemPosWithKey(pieData, event.name) 
+                if(containsKeyItem(pieData, categories[j].name)) {
+                    let key = getItemPosWithKey(pieData, categories[j].name) 
                     pieData[key].value = pieData[key].value + time; 
                 }else {
                     pieData.push({label: categories[j].name, value: time, color: event.color})  
@@ -119,9 +138,12 @@ function getPieInfo(event, pieData) {
     }
 }
 
+/**
+    Define logic for aggregation bar chart info
+**/
 function getBarInfo(event, barData) {
     
-    let label = formatDate(event.startDate);
+    let label = formatDate(new Date(event.startDate));
     let time = event.endDate - event.startDate;
     
     if(containsKeyItem(barData, label)) {
@@ -132,9 +154,12 @@ function getBarInfo(event, barData) {
     }  
 }
 
+/**
+    Define logic for aggregation group chart info
+**/
 function getGroupBarInfo(event, groupData) {
 
-    let label = formatDate(event.startDate);
+    let label = formatDate(new Date(event.startDate));
     let time = event.endDate - event.startDate;
     
     if(containsKeyItem(groupData, label)) {
@@ -145,7 +170,9 @@ function getGroupBarInfo(event, groupData) {
     }
 }
 
-
+/**
+    Define logic for aggregation bar chart info
+**/
 function aggregateBarInfo(events) {
 
     let days = events.map(event => event.label);
@@ -153,14 +180,15 @@ function aggregateBarInfo(events) {
 
     for(let i = 0; i < categories.length; i++) {
         let dataset = aggregateCategory(events, categories[i], days);
-        console.log(dataset);
         result.datasets.push(dataset);
     }
 
     return result;
 }
 
-
+/**
+    Define logic for aggregation of complex graph
+**/
 function aggregateCategory(events, category, days) {
     
     let datasetWork = {label: category.name,
@@ -185,7 +213,135 @@ function aggregateCategory(events, category, days) {
     return datasetWork;
 }
 
+/**
+    Define update action for group chart
+**/
+function updateAgregatorChart() {
+    var value = window.myPie.data.datasets[0].data[0];
+    window.myPie.data.datasets[0].data[0] = value + 5;
+    window.myPie.update();
+}
 
+/**
+    Event callback for Submit button
+**/
+$('#submit').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+
+
+/**
+    Button for sorting click
+**/
+$('#day_bar_chart').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+$('#month_bar_chart').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+$('#year_bar_chart').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+
+
+$('#day_pie_chart').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+$('#month_pie_chart').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+$('#year_pie_chart').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+
+
+$('#day_stack_chart').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+$('#month_stack_chart').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+$('#year_stack_chart').on('click', function(e) {
+    console.log("Click" + startDateFrom + " " + selectedCategories);
+    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+});
+
+
+month_bar_chart
+
+
+/**
+    Define action callback for changing date
+**/
+$('input[name="daterange"]').daterangepicker(
+    {
+        locale: {
+          format: 'YYYY-MM-DD'
+        },
+        startDate: startOfMonth,
+        endDate: endOfMonth
+    }, 
+    function(start, end, label) {
+        startDateFrom = new Date(start).getTime();
+        endDateTo = new Date(end).getTime();
+});
+
+
+/**
+    Define action callback for selecting a category
+**/
+$('#categorySelect').on('changed.bs.select', function (e, index, active) {
+    if(active) {
+        selectedCategories.push(categories[index].id);
+    }else {
+        selectedCategories.splice(selectedCategories.indexOf(categories[index].id), 1);
+    }
+});
+
+/**
+    Define action callback for selecting a color
+**/
+$('#colorSelect').on('changed.bs.select', function (e, index, active) {
+     if(active) {
+        selectedCategories.push(categories[index].id);
+    }else {
+        selectedCategories.splice(selectedCategories.indexOf(categories[index].id), 1);
+    }
+});
+
+/**
+    Define ajax call for getting events
+**/
+function updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors) {
+    let searchString = $('#search_event').val();
+    $.ajax({
+      type: 'POST',
+      url: '/api/events',
+      data: { 
+            start_date: startDateFrom, 
+            end_date: endDateTo, 
+            categories: selectedCategories,
+            colors: selectedColors,
+            startWith: searchString
+      },
+      success: function(result) {
+        updateGraphs(result.data);
+      }
+    });
+}
+
+/**
+    Util function for array 
+**/
 function manyIncludes(items, name) {
 
     let result = false;
@@ -222,6 +378,10 @@ function containsKeyItem(array, key) {
     return found;
 }
 
+
+/**
+    Util functions for time
+**/
 function formatDate(date, type) {
   var monthNames = [
     "January", "February", "March",
@@ -248,49 +408,5 @@ function milisecondsToTime(milisecs)
     secs = Math.round(secs);
     let hours = Math.floor(secs / (60 * 60));
     return hours;
-}
-
-function updateAgregatorChart() {
-    var value = window.myPie.data.datasets[0].data[0];
-    window.myPie.data.datasets[0].data[0] = value + 5;
-    window.myPie.update();
-}
-
-$('input[name="daterange"]').daterangepicker(
-    {
-        locale: {
-          format: 'YYYY-MM-DD'
-        },
-        startDate: '2013-01-01',
-        endDate: '2013-12-31'
-    }, 
-    function(start, end, label) {
-        startDateFrom = start;
-        endDateTo = end;
-        alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-});
-$('#categorySelect').on('changed.bs.select', function (e) {
-    console.log(e);
-});
-$('#colorSelect').on('changed.bs.select', function (e) {
-    console.log(e);
-});
-
-
-function updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors, searchString) {
-    $.ajax({
-      type: 'POST',
-      url: '/api/events',
-      data: { 
-            start_date: startDateFrom, 
-            end_date: endDateTo, 
-            categories: selectedCategories,
-            colors: selectedColors,
-            startWith: searchString
-      },
-      success: function(result) {
-        updateGraphs(result);
-      }
-    });
 }
         

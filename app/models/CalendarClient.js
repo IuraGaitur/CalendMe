@@ -6,8 +6,6 @@ const util = require('util');
 const credentials = require('./../../configs/client_secret.js')
 
 function authorize(refresh_token, token) {
-    
-  console.log(credentials);
   var clientSecret = credentials.web.client_secret;
   var clientId = credentials.web.client_id;
   var redirectUrl = credentials.web.redirect_uris[0];
@@ -21,16 +19,15 @@ function authorize(refresh_token, token) {
 function listEvents(refresh_token, token) {
   
     let auth = authorize(refresh_token, token);
-    console.log(auth);
     var calendar = google.calendar('v3');
     var before = new Date();
-    var beforeDate = new Date(before.getTime() - 2 * 365 * 24 * 60 * 60 * 1000);
+    var beforeDate = new Date(before.getTime() - 2* 365 * 24 * 60 * 60 * 1000);
     return new Promise(function(resolve,reject){
         let request = calendar.events.list({
             auth: auth,
             calendarId: 'primary',
             timeMin: (beforeDate).toISOString(),
-            maxResults: 10,
+            maxResults: 100000,
             singleEvents: true,
             orderBy: 'startTime'
         }, function(err, resp) {

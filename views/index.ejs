@@ -25,13 +25,13 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="#">Comparison<span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Analyze</a></li>
-            <li><a href="#">Report</a></li>
+            <li><a href="#">Update calendar events</a></li>
+            <li><a href="#">Generate Report</a></li>
           </ul>
         
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">LogOut</a></li>
+            <li><a href="/logout">Settings</a></li>
+            <li><a href="/logout">LogOut</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -77,7 +77,7 @@
                 <li>
                   <form class="navbar-form navbar-left m-t-0">
                       <div class="form-group pull-right">
-                          <input type="text" class="form-control" placeholder="Search">
+                          <input type="text" class="form-control" placeholder="Search" id="search_event">
                           <button type="submit" class="btn btn-default">Search</button>
                       </div>
                   </form>
@@ -91,7 +91,16 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="panel panel-default m-t-8" style=" height:390px">
-                  <div class="panel-heading">Statistics</div>
+                  <div class="panel-heading" style="height:50px">
+                    <div style="position: relative;right: 0px;">
+                        <div class="btn-group pull-right" role="group" aria-label="...">
+                          <button type="button" class="btn btn-default" id="day_pie_chart">Days</button>
+                          <button type="button" class="btn btn-default" id="month_pie_chart">Month</button>
+                          <button type="button" class="btn btn-default" id="year_pie_chart">Year</button>
+                        </div>
+                    </div>
+                    <div class="align-middle" style="height:100%; margin-top: 8px;">Statistics</div>
+                  </div>
                   <div class="panel-body">
                     <canvas id="chartPie" width="603" height="301" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
                   </div>
@@ -99,7 +108,16 @@
             </div>
             <div class="col-md-5 col-md-offset-1">
                 <div class="panel panel-default m-t-8" style="height:390px">
-                  <div class="panel-heading">Statistics</div>
+                  <div class="panel-heading" style="height:50px">
+                    <div style="position: relative;right: 0px;">
+                        <div class="btn-group pull-right" role="group" aria-label="...">
+                          <button type="button" class="btn btn-default" id="day_bar_chart">Days</button>
+                          <button type="button" class="btn btn-default" id="month_bar_chart">Month</button>
+                          <button type="button" class="btn btn-default" id="year_bar_chart">Year</button>
+                        </div>
+                    </div>
+                    <div class="align-middle" style="height:100%; margin-top: 8px;">Statistics</div>
+                  </div>
                   <div class="panel-body">
                     <canvas id="chartBar" width="603" height="401" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
                   </div>
@@ -108,7 +126,16 @@
         </div>
         <div class="row">
             <div class="panel panel-default m-t-8" style="width:40%; height:390px">
-              <div class="panel-heading">Statistics</div>
+              <div class="panel-heading" style="height:50px">
+                <div style="position: relative;right: 0px;">
+                    <div class="btn-group pull-right" role="group" aria-label="...">
+                      <button type="button" class="btn btn-default" id="day_stack_chart">Days</button>
+                          <button type="button" class="btn btn-default" id="month_stack_chart">Month</button>
+                          <button type="button" class="btn btn-default" id="year_stack_chart">Year</button>
+                    </div>
+                </div>
+                <div class="align-middle" style="height:100%; margin-top: 8px;">Statistics</div>
+              </div>
               <div class="panel-body">
                   <canvas id="stackChart" width="603" height="301" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
               </div>
@@ -263,6 +290,7 @@
                         display:true,
                         text:"Chart.js Bar Chart - Stacked"
                     },
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
                     tooltips: {
                         mode: 'index',
                         intersect: false
@@ -294,6 +322,7 @@
                         fill: false,
                         lineTension: 1,
                         borderWidth: 2,
+                        backgroundColor: 'rgba(213, 0, 0, 0.5)'
 
                     }]
                 },
