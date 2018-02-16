@@ -38,12 +38,12 @@
     </nav>  
     <div class="content"> 
         <div class="row"> 
-            <div class="col-xs-2 nav navbar-nav">
+            <div class="col-xs-3 nav navbar-nav">
                 <li>
                     <span class="list_elem">Date Range</span>
                 </li>
                 <li>
-                    <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control form_control_width_small"/> 
+                    <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control"/> 
                 </li>
             </div>
             <div class="col-xs-3 nav navbar-nav">
@@ -53,24 +53,12 @@
                 <li>
                      <select class="selectpicker" multiple data-selected-text-format="count > 3" id="categorySelect">
                         <% for(let i=0; i< categories.length; i++) { %>
-                            <option><%= categories[i].name %></option>
+                            <option data-icon="glyphicon glyphicon glyphicon-stop <%= categories[i].colorName %>"><%= categories[i].name %></option>
                         <% } %> 
                     </select>
                 </li>
             </div>
-            <div class="col-xs-3 nav navbar-nav">
-                <li>
-                    <span class="list_elem">Colors</span>
-                </li>
-                <li>
-                     <select class="selectpicker" multiple data-selected-text-format="count > 3" id="colorSelect">
-                        <% for(let i=0; i< colors.length; i++) { %>
-                            <option data-icon="glyphicon glyphicon glyphicon-stop <%= colors[i].name %>"><%= colors[i].name %></option>
-                        <% } %> 
-                    </select>
-                </li>
-            </div>
-            <div class="col-xs-4 nav navbar-nav">
+            <div class="col-xs-3 nav navbar-nav navbar-right">
                 <li>
                     <span class="list_elem"></span>
                 </li>
@@ -78,28 +66,20 @@
                   <form class="navbar-form navbar-left m-t-0">
                       <div class="form-group pull-right">
                           <input type="text" class="form-control" placeholder="Search" id="search_event">
-                          <button type="submit" class="btn btn-default">Search</button>
                       </div>
                   </form>
                 </li>
-                <li>
-                    <button type="submit" class="btn btn-success" id="submit">Submit</button>
+                 <li>
+                    <button type="submit" class="btn btn-success" id="submit">Search all</button>
                 </li>
-            </div>  
+            </div>
         </div>
         
         <div class="row">
             <div class="col-md-5">
-                <div class="panel panel-default m-t-8" style=" height:390px">
+                <div class="panel panel-default m-t-8" style=" height:450px">
                   <div class="panel-heading" style="height:50px">
-                    <div style="position: relative;right: 0px;">
-                        <div class="btn-group pull-right" role="group" aria-label="...">
-                          <button type="button" class="btn btn-default" id="day_pie_chart">Days</button>
-                          <button type="button" class="btn btn-default" id="month_pie_chart">Month</button>
-                          <button type="button" class="btn btn-default" id="year_pie_chart">Year</button>
-                        </div>
-                    </div>
-                    <div class="align-middle" style="height:100%; margin-top: 8px;">Statistics</div>
+                    <div class="align-middle" style="height:100%; margin-top: 8px;">Statistics Pie Chart</div>
                   </div>
                   <div class="panel-body">
                     <canvas id="chartPie" width="603" height="301" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
@@ -107,7 +87,7 @@
                 </div>
             </div>
             <div class="col-md-5 col-md-offset-1">
-                <div class="panel panel-default m-t-8" style="height:390px">
+                <div class="panel panel-default m-t-8" style="height:450px">
                   <div class="panel-heading" style="height:50px">
                     <div style="position: relative;right: 0px;">
                         <div class="btn-group pull-right" role="group" aria-label="...">
@@ -116,7 +96,7 @@
                           <button type="button" class="btn btn-default" id="year_bar_chart">Year</button>
                         </div>
                     </div>
-                    <div class="align-middle" style="height:100%; margin-top: 8px;">Statistics</div>
+                    <div class="align-middle" style="height:100%; margin-top: 8px;">Statistics Bar Chart</div>
                   </div>
                   <div class="panel-body">
                     <canvas id="chartBar" width="603" height="401" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
@@ -125,7 +105,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="panel panel-default m-t-8" style="width:40%; height:390px">
+            <div class="panel panel-default m-t-8" style="width:40%; height:450px">
               <div class="panel-heading" style="height:50px">
                 <div style="position: relative;right: 0px;">
                     <div class="btn-group pull-right" role="group" aria-label="...">
@@ -134,7 +114,7 @@
                           <button type="button" class="btn btn-default" id="year_stack_chart">Year</button>
                     </div>
                 </div>
-                <div class="align-middle" style="height:100%; margin-top: 8px;">Statistics</div>
+                <div class="align-middle" style="height:100%; margin-top: 8px;">Statistics Stack Chart</div>
               </div>
               <div class="panel-body">
                   <canvas id="stackChart" width="603" height="301" class="chartjs-render-monitor" style="display: block; width: 603px; height: 301px;"></canvas>
@@ -168,29 +148,11 @@
              
             data: {
                 datasets: [{
-                    data: [
-                        randomScalingFactor(),
-                        randomScalingFactor(),
-                        randomScalingFactor(),
-                        randomScalingFactor(),
-                        randomScalingFactor(),
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)',
-                        'rgba(153, 102, 255, 0.5)'
-                    ],
+                    data: [],
+                    backgroundColor: [],
                     label: 'Dataset 1'
                 }],
-                labels: [
-                    "Red",
-                    "Orange",
-                    "Yellow",
-                    "Green",
-                    "Blue"
-                ]
+                labels: []
             },
             options: {
                 responsive: false,
@@ -201,47 +163,8 @@
         
         //Grouped chart
         var barChartData = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-                label: 'Dataset 1',
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                stack: 'Stack 0',
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ]
-            }, {
-                label: 'Dataset 2',
-                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                stack: 'Stack 0',
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ]
-            }, {
-                label: 'Dataset 3',
-                backgroundColor: 'rgba(13, 102, 255, 0.2)',
-                stack: 'Stack 1',
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ]
-            }], options: {
+            labels: [],
+            datasets: [], options: {
                 responsive: false,
                 width:500,
                 height:300,
@@ -249,33 +172,6 @@
 
         };
         
-        //Bar chart
-        function randomNumber(min, max) {
-			return Math.random() * (max - min) + min;
-		}
-
-		function randomBar(date, lastClose) {
-			var open = randomNumber(lastClose * .95, lastClose * 1.05);
-			var close = randomNumber(open * .95, open * 1.05);
-			var high = randomNumber(Math.max(open, close), Math.max(open, close) * 1.1);
-			var low = randomNumber(Math.min(open, close) * .9, Math.min(open, close));
-			return {
-				t: date.valueOf(),
-				y: close
-			};
-		}
-
-		var dateFormat = 'MMMM DD YYYY';
-		var date = moment('April 01 2017', dateFormat);
-		var data = [randomBar(date, 30)];
-		var labels = [date];
-		while (data.length < 60) {
-			date = date.clone().add(1, 'd');
-			if (date.isoWeekday() <= 5) {
-				data.push(randomBar(date, data[data.length - 1].y));
-				labels.push(date);
-			}
-		}
 
         window.onload = function() {
             var ctxPie = document.getElementById("chartPie").getContext("2d");
@@ -288,7 +184,7 @@
                 options: {
                     title:{
                         display:true,
-                        text:"Chart.js Bar Chart - Stacked"
+                        text:""
                     },
                     backgroundColor: 'rgba(153, 102, 255, 0.2)',
                     tooltips: {
@@ -313,10 +209,10 @@
             var cfgs = {
                 type: 'bar',
                 data: {
-                    labels: labels,
+                    labels: [],
                     datasets: [{
-                        label: "CHRT - Chart.js Corporation",
-                        data: data,
+                        label: "",
+                        data: [],
                         type: 'bar',
                         pointRadius: 1,
                         fill: false,

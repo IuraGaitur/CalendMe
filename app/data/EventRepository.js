@@ -52,7 +52,7 @@ class EventRepository {
             result = eventCollection.find({'$and': conditions});
         }
        
-        console.log(result);
+        console.log(result.length);
         return result;
     }
 

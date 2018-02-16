@@ -25,15 +25,12 @@ module.exports = function(app, passport) {
     
     app.get('/signin', function(req, res) {
         // Authorize a client with the loaded credentials, then call the
-        res.render('signin', {'title': "Express"})
+        res.render('signin', {'title': "CalendMe"})
 
     });
 
     app.get('/', isLoggedIn, function(req, res) {
         // Authorize a client with the loaded credentials, then call the
-        
-
-
         res.render('index', {'title': "Express", 'colors': colors, 'categories': categories})
 
     });

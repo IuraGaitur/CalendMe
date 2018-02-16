@@ -8,10 +8,8 @@ let endOfMonth   = moment().endOf('month').format('YYYY-MM-DD');
 let startDateFrom = new Date(startOfMonth).getTime();
 let endDateTo = new Date(endOfMonth).getTime();
 
-//Date time type
-let dateTypePieChart = 'month';
-let dateTypePieChart = 'month';
-let dateTypePieChart = 'month';
+//Graphs data
+let chartsData = [];
 
 let colors = [
             {id:3, name: 'Tomato', color: [213, 0, 0]},
@@ -30,41 +28,27 @@ let colors = [
         
 let categories = [
             {id:1, name: "Work", short_name: ["WOV", "WV"], color: 'rgba(213, 0, 0, 0.5)'},
-            {id:2, name: "Health", short_name: ["HEV", "HV"], color: 'rgba( 244, 81, 30, 0.5)'},
-            {id:3, name: "Discipline", short_name: ["DIV", "DV"], color: 'rgba( 246, 191, 38, 0.5)'},
-            {id:4, name: "Food", short_name: ["FOV","FV"], color: 'rgba( 11, 128, 67, 0.5)'},
-            {id:5, name: "Procastination", short_name: ["PROC", "Proc"], color: 'rgba( 251, 182, 121, 0.5)'},
-            {id:6, name: "Sleep", short_name: ["SLV", "SV"], color: 'rgba( 3, 155, 129, 0.5)'},
-            {id:7, name: "Beauty", short_name: ["BEV", "BV"], color: 'rgba( 63, 81, 181, 0.5)'},
-            {id:8, name: "Event", short_name: ["EVV", "EV"], color: 'rgba( 121, 134, 203, 0.5)'},
-            {id:9, name: "Programming", short_name: ["PRV", "PV"], color: 'rgba( 142, 36, 170, 0.5)'},
-            {id:10, name: "Resources", short_name: ["REV", "RV"], color: 'rgba( 230, 124, 115, 0.5)'},
-            {id:11, name: "Information", short_name: ["INV", "IV"], color: 'rgba( 97, 97, 97, 0.5)'},
+            {id:2, name: "Health", short_name: ["HEV", "HV"], color: 'rgba(244, 81, 30, 0.5)'},
+            {id:3, name: "Discipline", short_name: ["DIV", "DV"], color: 'rgba(246, 191, 38, 0.5)'},
+            {id:4, name: "Food", short_name: ["FOV","FV"], color: 'rgba(11, 128, 67, 0.5)'},
+            {id:5, name: "Procastination", short_name: ["PROC", "Proc"], color: 'rgba(251, 182, 121, 0.5)'},
+            {id:6, name: "Sleep", short_name: ["SLV", "SV"], color: 'rgba(3, 155, 129, 0.5)'},
+            {id:7, name: "Beauty", short_name: ["BEV", "BV"], color: 'rgba(63, 81, 181, 0.5)'},
+            {id:8, name: "Event", short_name: ["EVV", "EV"], color: 'rgba(121, 134, 203, 0.5)'},
+            {id:9, name: "Programming", short_name: ["PRV", "PV"], color: 'rgba(142, 36, 170, 0.5)'},
+            {id:10, name: "Resources", short_name: ["REV", "RV"], color: 'rgba(230, 124, 115, 0.5)'},
+            {id:11, name: "Information", short_name: ["INV", "IV"], color: 'rgba(97, 97, 97, 0.5)'},
             {id:12, name: "Sport", short_name: ["SPV", "SV"], color: 'rgba(66, 133, 244, 0.5)'}
         ];
-
-
-/**
-    Dump data for event testing
-**/
-function getDumpEvents() {
-    return [{startDate: new Date('2018-02-02T12:00'), endDate: new Date('2018-02-02T14:00'), name: '[WV]Doing work', color: 'rgba(255, 99, 132, 0.5)'},
-          {startDate: new Date('2018-02-03T12:00'), endDate: new Date('2018-02-03T18:00'), name: '[EV]Doing work', color: 'rgba(54, 162, 235, 0.5)'},
-          {startDate: new Date('2018-02-04T12:00'), endDate: new Date('2018-02-04T15:00'), name: '[SV]Doing work', color: 'rgba(255, 206, 86, 0.5)'},
-          {startDate: new Date('2018-02-05T12:00'), endDate: new Date('2018-02-05T14:00'), name: '[DV]Doing work', color: 'rgba(75, 192, 192, 0.5)'},
-          {startDate: new Date('2018-02-06T12:00'), endDate: new Date('2018-02-06T14:00'), name: '[WV]Doing work', color: 'rgba(153, 102, 255, 0.5)'},
-         ];
-}
-
 
 /**
     Update charts
 **/
 function updateGraphs(events) {
-    let chartsData = getDistinctEvents(events);
+    chartsData = getDistinctEvents(events);
     updatePieChart(chartsData.pieData);
-    updateBarChart(chartsData.barData);
-    updateGroupBarChart(chartsData.groupBarData);
+    refreshBarChartData(chartsData.barData);
+    refreshStackBarChartData(chartsData.groupBarData);
     
 }
 
@@ -75,8 +59,29 @@ function updatePieChart(events) {
     window.myPie.data.labels = events.map(item => item.label);
     window.myPie.data.datasets[0].data = events.map(item => milisecondsToTime(item.value));
     window.myPie.data.datasets[0].label = "Data for period __:__";
-    window.myPie.data.backgroundColor = events.map(item => item.color); 
+    window.myPie.data.datasets[0].backgroundColor = events.map(item => item.color); 
     window.myPie.update();
+}
+
+function refreshBarChartData(events, dateType) {
+
+    if(dateType == 'day') {
+        updateBarChart(events.day);
+    } else if(dateType == 'year') {
+        updateBarChart(events.year);
+    } else {
+        updateBarChart(events.month);
+    }
+}
+
+function refreshStackBarChartData(events, dateType) {
+     if(dateType == 'day') {
+        updateGroupBarChart(events.day);
+    } else if(dateType == 'year') {
+        updateGroupBarChart(events.year);
+    } else {
+        updateGroupBarChart(events.month);
+    }
 }
 
 /**
@@ -85,7 +90,9 @@ function updatePieChart(events) {
 function updateBarChart(events) {
     window.myBar.data.labels = events.map(item => item.label);
     window.myBar.data.datasets[0].data = events.map(item => milisecondsToTime(item.value));
-    window.myBar.data.datasets[0].label = "Data for period __:__ on labels: ....";
+    window.myBar.data.datasets[0].label = "Data for period " 
+                    +  moment(new Date(startDateFrom)).format('YYYY-MM-DD') + ':' 
+                    +  moment(new Date(endDateTo)).format('YYYY-MM-DD');
     window.myBar.update();
 }
 
@@ -103,8 +110,10 @@ function updateGroupBarChart(data) {
 **/
 function getDistinctEvents(events) {
     let pieData = [];
-    let barData = [];
-    let groupBarData = [];
+    let barData = {day:[], month:[], year:[]};
+    let groupData = {day:[], month:[], year: []};
+    let groupBarData = {day:[], month:[], year: []};
+
     //Events
     for(let i = 0; i < events.length; i++) {
         getPieInfo(events[i], pieData);
@@ -112,7 +121,9 @@ function getDistinctEvents(events) {
         getGroupBarInfo(events[i], groupBarData);
     }
 
-    groupData = aggregateBarInfo(groupBarData);
+    groupData.day = aggregateBarInfo(groupBarData.day);
+    groupData.month = aggregateBarInfo(groupBarData.month);
+    groupData.year = aggregateBarInfo(groupBarData.year);
     
     return {pieData: pieData, barData: barData, groupBarData: groupData};
 }
@@ -131,42 +142,87 @@ function getPieInfo(event, pieData) {
                     let key = getItemPosWithKey(pieData, categories[j].name) 
                     pieData[key].value = pieData[key].value + time; 
                 }else {
-                    pieData.push({label: categories[j].name, value: time, color: event.color})  
+                    pieData.push({label: categories[j].name, value: time, color: categories[j].color})  
                 }     
             }
         }
     }
 }
 
+
 /**
     Define logic for aggregation bar chart info
 **/
 function getBarInfo(event, barData) {
     
-    let label = formatDate(new Date(event.startDate));
+    let labelDay = formatDate(new Date(event.startDate), 'day');
+    let labelMonth = formatDate(new Date(event.startDate), 'month');
+    let labelYear = formatDate(new Date(event.startDate), 'year');
+
     let time = event.endDate - event.startDate;
-    
-    if(containsKeyItem(barData, label)) {
-        let key = getItemPosWithKey(barData, label) 
-        barData[key].value = barData[key].value + time; 
+    if(time > 24 * 60 * 60 * 1000) return;
+
+    //check for day
+    if(containsKeyItem(barData.day, labelDay)) {
+        let key = getItemPosWithKey(barData.day, labelDay) 
+        barData.day[key].value = barData.day[key].value + time; 
     }else {
-        barData.push({label: label, value: time})  
+        barData.day.push({label: labelDay, value: time})  
+    }
+
+    //check for month
+    if(containsKeyItem(barData.month, labelMonth)) {
+        let key = getItemPosWithKey(barData.month, labelMonth) 
+        barData.month[key].value = barData.month[key].value + time; 
+    }else {
+        barData.month.push({label: labelMonth, value: time})  
     }  
+
+    //check for year
+    if(containsKeyItem(barData.year, labelYear)) {
+        let key = getItemPosWithKey(barData.year, labelYear) 
+        barData.year[key].value = barData.year[key].value + time; 
+    }else {
+        barData.year.push({label: labelYear, value: time})  
+    }    
 }
+
 
 /**
     Define logic for aggregation group chart info
 **/
 function getGroupBarInfo(event, groupData) {
 
-    let label = formatDate(new Date(event.startDate));
+    let labelDay = formatDate(new Date(event.startDate));
+    let labelMonth = formatDate(new Date(event.startDate), 'month');
+    let labelYear = formatDate(new Date(event.startDate), 'year');
+
     let time = event.endDate - event.startDate;
+
+    if(time > 24 * 60 * 60 * 1000) return;
     
-    if(containsKeyItem(groupData, label)) {
-        let key = getItemPosWithKey(groupData, label) 
-        groupData[key].data.push({name: event.name, color: event.color, time: time}); 
+    //check for day
+    if(containsKeyItem(groupData.day, labelDay)) {
+        let key = getItemPosWithKey(groupData.day, labelDay) 
+        groupData.day[key].data.push({name: event.name, color: event.color, time: time}); 
     }else {
-        groupData.push({label: label, data: [{name: event.name, color: event.color, time: time}]});  
+        groupData.day.push({label: labelDay, data: [{name: event.name, color: event.color, time: time}]});  
+    }
+
+    //check for month
+    if(containsKeyItem(groupData.month, labelMonth)) {
+        let key = getItemPosWithKey(groupData.month, labelMonth) 
+        groupData.month[key].data.push({name: event.name, color: event.color, time: time}); 
+    }else {
+        groupData.month.push({label: labelMonth, data: [{name: event.name, color: event.color, time: time}]});  
+    }
+
+    //check for year
+    if(containsKeyItem(groupData.year, labelYear)) {
+        let key = getItemPosWithKey(groupData.year, labelYear) 
+        groupData.year[key].data.push({name: event.name, color: event.color, time: time}); 
+    }else {
+        groupData.year.push({label: labelYear, data: [{name: event.name, color: event.color, time: time}]});  
     }
 }
 
@@ -226,58 +282,36 @@ function updateAgregatorChart() {
     Event callback for Submit button
 **/
 $('#submit').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
     updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
 });
+
+//Call update events
+updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);
 
 
 /**
     Button for sorting click
 **/
 $('#day_bar_chart').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+    refreshBarChartData(chartsData.barData, 'day');    
 });
 $('#month_bar_chart').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+    refreshBarChartData(chartsData.barData, 'month');    
 });
 $('#year_bar_chart').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
-});
-
-
-$('#day_pie_chart').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
-});
-$('#month_pie_chart').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
-});
-$('#year_pie_chart').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+    refreshBarChartData(chartsData.barData, 'year');    
 });
 
 
 $('#day_stack_chart').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+    refreshStackBarChartData(chartsData.groupBarData, 'day');     
 });
 $('#month_stack_chart').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+    refreshStackBarChartData(chartsData.groupBarData, 'month'); 
 });
 $('#year_stack_chart').on('click', function(e) {
-    console.log("Click" + startDateFrom + " " + selectedCategories);
-    updateEvents(startDateFrom, endDateTo, selectedCategories, selectedColors);    
+    refreshStackBarChartData(chartsData.groupBarData, 'year'); 
 });
-
-
-month_bar_chart
-
 
 /**
     Define action callback for changing date
@@ -393,9 +427,13 @@ function formatDate(date, type) {
   var day = date.getDate();
   var monthIndex = date.getMonth();
   var year = date.getFullYear();
-  var output = monthNames[monthIndex] + ' ' + year
-  if(type !== 'month') {
-      output = day + ' ' + output;
+  
+  if(type == 'year') {
+    output = year;
+  }else if(type == 'month') {
+    output = monthNames[monthIndex] + ' ' + year;
+  }else {
+      output = day + ' ' + monthNames[monthIndex] + ' ' + year;
   }
     
   return output;

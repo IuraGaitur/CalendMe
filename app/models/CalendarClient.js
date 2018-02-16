@@ -21,17 +21,18 @@ function listEvents(refresh_token, token) {
     let auth = authorize(refresh_token, token);
     var calendar = google.calendar('v3');
     var before = new Date();
-    var beforeDate = new Date(before.getTime() - 2* 365 * 24 * 60 * 60 * 1000);
+    var beforeDate = new Date(before.getTime() - 365 * 24 * 60 * 60 * 1000);
     return new Promise(function(resolve,reject){
         let request = calendar.events.list({
             auth: auth,
             calendarId: 'primary',
             timeMin: (beforeDate).toISOString(),
-            maxResults: 100000,
+            maxResults: 50000,
             singleEvents: true,
             orderBy: 'startTime'
         }, function(err, resp) {
               if(err) {
+                  console.log(err);
                   reject(err);
               }
               var events = resp.items;
