@@ -1,7 +1,6 @@
 const calendarClient = require('./../models/CalendarClient.js');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const eventRepo = require('./../data/EventRepository.js');
-const colors = require('./../../configs/resources.js').colors;
 const categories = require('./../../configs/resources.js').categories;
 
 
@@ -29,11 +28,21 @@ module.exports = function(app, passport) {
 
     });
 
-    app.get('/', isLoggedIn, function(req, res) {
+    app.get('/info', function(req, res) {
         // Authorize a client with the loaded credentials, then call the
-        res.render('index', {'title': "Express", 'colors': colors, 'categories': categories})
+        res.render('info')
 
     });
+
+    app.get('/', isLoggedIn, function(req, res) {
+        // Authorize a client with the loaded credentials, then call the
+        res.render('index', {'title': "CalendMe", 'categories': categories})
+
+    });
+
+    app.get('/settings', isLoggedIn, function(req, res) {
+        res.render('settings', {'settings': {}})
+    })
 
     // route for showing the profile page
     app.get('/profile', isLoggedIn, function(req, res) {
@@ -54,7 +63,6 @@ module.exports = function(app, passport) {
 
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',passport.authenticate('google', {failureRedirect : '/signin'}), function(req, res) {
-        console.log('Authentication passed with success');
         clearPastEvents(req.user);
         getUserEvents(req.user);
         return res.redirect('/');;

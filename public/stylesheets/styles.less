@@ -1,0 +1,33 @@
+@background-color : #ffffff;
+@main-color: #f3f3f3;
+
+p{
+	background-color: @background-color;
+}
+
+li {
+	text-color: @main-color;
+}
+// Define simple
+#square {
+	background-color: @background-color;
+	width: 40px;
+}
+
+#square_big {
+	width: 40px;
+	height: 80px;
+	#square
+}
+
+
+//Define with params
+#circle(@size: 25px) {
+	width: @size;
+	height: @size;
+
+}
+
+#small_circle {
+	#circle(100px)
+}

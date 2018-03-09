@@ -12,11 +12,9 @@ class EventRepository {
     }
 
     addAll(events, userID) {
-        console.log('User id=' + userID);
         let formatedEvents = new eventModel().mapToEvents(events, userID);
         formatedEvents = JSON.stringify(formatedEvents);
         formatedEvents = JSON.parse(formatedEvents);
-        //console.log(formatedEvents);
         eventCollection.insert(formatedEvents);
     }
 
@@ -25,7 +23,7 @@ class EventRepository {
         let numberOfConditions = 0;
         let conditions = [];
         let result = [];
-
+            
         conditions.push({'userID': { '$eq' : userID }});
 
         if(startDate && endDate) {
@@ -39,11 +37,12 @@ class EventRepository {
         }
 
         if(categories) {
+            categories = categories.map(item => parseInt(item));
             conditions.push({category : { '$in' : categories}});
             numberOfConditions++;
         }
 
-        console.log(conditions);
+        console.log(JSON.stringify(conditions));
 
         if(numberOfConditions == 0) {
             result = eventCollection.find(conditions[0]);

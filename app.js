@@ -6,12 +6,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 
-
-const users = require('./app/routes/users');
 const port = 3000;
 const app = express();
 const passport = require('passport');
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +18,7 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -30,7 +27,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 const index = require('./app/routes/index')(app, passport);
 require('./configs/passport')(passport);
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

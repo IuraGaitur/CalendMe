@@ -28,10 +28,13 @@ class Event {
 };
 
 function getCategory(name) {
+
 	for(let i = 0; i < resources.categories.length; i++) {
-		if(name.includes(resources.categories[i].shortName)) {
-			return resources.categories[i].id;
-		}
+        for(let j = 0; j < resources.categories[i].short_name.length; j++) {
+    		if(name.includes(resources.categories[i].short_name[j])) {
+    			return resources.categories[i].id;
+    		}
+        }
 	}
 
 	return 0;

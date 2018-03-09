@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Settings</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/#">CalendMe</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="/update_info">Update calendar events</a></li>
+            <li><a href="/generate_report">Generate Report</a></li>
+          </ul>
+        
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/settings">Settings</a></li>
+            <li><a href="/logout">LogOut</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>  
+    <div class="content"> 
+        <form class="form-horizontal">
+            <fieldset>
+                <!-- Form Name -->
+                <div class=" col-md-offset-2 row col-md-9 ">
+                    <legend>CalendMe Settings Page</legend>
+                </div>
+                <p></p>
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="Institution">Weekly Report</label>
+                  <div class="col-md-5">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="Institution">Monthly Report</label>
+                  <div class="col-md-5">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                  </div>
+                </div>
+
+               <!-- Select Multiple -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="AccountAccess">Add Category </label>
+                    <div class="form-row">
+                        <div class="row">
+                            <div class="col-md-2">
+                              <input type="text" class="form-control" placeholder="Name">
+                            </div>
+                            <div class="col-md-1">
+                              <input type="text" class="form-control" placeholder="Short name">
+                            </div>
+                            <div class="col-md-1">
+                              <input type="text" class="form-control" placeholder="Color code">
+                            </div>
+                            <div class="col-md-1">
+                              <input type="text" class="form-control" placeholder="Color name">
+                            </div>
+                            <div class="col-auto">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="AccountAccess">All Categories</label>
+                  <div class="col-md-5">
+                    <select id="AccountAccess" name="AccountAccess" class="form-control" multiple="multiple">
+                      <option value="1">ATM</option>
+                      <option value="2">Branch</option>
+                      <option value="">Internet Banking</option>
+                      <option value="">Phone Banking</option>
+                    </select>
+                  </div>
+                </div>
+        </fieldset>
+    </form>
+        
+    </div> 
+    
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+  </body>
+</html>
